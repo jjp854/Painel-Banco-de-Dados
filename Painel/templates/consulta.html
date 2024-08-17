@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Consulta{% endblock %}
+
+{% block content %}
+<div class="consulta-panel">
+    <div class="title" style="color: #007bff; margin-top: 20px;">Meu Consig</div>
+    <form id="searchForm" action="/consulta" method="post" class="horizontal-form">
+        <div class="form-group-inline">
+            <label for="searchBy" class="inline-label">Buscar por:</label>
+            <select id="searchBy" name="searchBy" onchange="updateLabel()" class="inline-select">
+                <option value="cpf">CPF</option>
+                <option value="nome">Nome</option>
+                <option value="numero">Número</option>
+            </select>
+        </div>
+        <div class="form-group-inline">
+            <label id="searchValueLabel" for="searchValue" class="inline-label"></label>
+            <input type="text" id="searchValue" name="searchValue" required class="inline-input">
+        </div>
+        <button type="submit" class="submit-button-inline">Consultar</button>
+    </form>
+    {% if result %}
+    <div class="result">
+        <div class="result-header">{{ result.nome }} - {{ result.cpf }}</div>
+        <div class="title">Dados Gerais</div>
+        <div class="data-row"><strong>Nome:</strong> {{ result.nome }}</div>
+        <div class="data-row"><strong>Número:</strong> {{ result.numero }}</div>
+        <div class="data-row"><strong>Endereço:</strong> {{ result.endereco }}</div>
+        <div class="data-row"><strong>Conta:</strong> {{ result.conta }}</div>
+        <div class="data-row"><strong>CPF:</strong> {{ result.cpf }}</div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+<!-- templates/painel.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meu Consig</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 style="color: #1E90FF;">Meu Consig</h1>
+            <div>
+                <button id="searchButton" style="background: linear-gradient(to right, #1E90FF, #87CEFA);">Escolha o Método de Pesquisa</button>
+                <div id="searchOptions" style="display: none;">
+                    <label><input type="radio" name="search_by" value="cpf" checked> CPF</label>
+                    <label><input type="radio" name="search_by" value="nome"> Nome</label>
+                    <label><input type="radio" name="search_by" value="numero"> Número</label>
+                </div>
+            </div>
+        </header>
+
+        <form method="POST">
+            <label id="searchLabel" for="search_value">CPF</label>
+            <input type="text" id="search_value" name="search_value" required>
+            <button type="submit">Consultar</button>
+        </form>
+
+        {% if result %}
+            <h2>{{ result[0] }} <span>{{ result[4] }}</span></h2>
+            <h3>Dados Gerais</h3>
+            <ul class="result-list">
+                <li><span class="label">Nome:</span> <span class="value">{{ result[0] }}</span></li>
+                <li><span class="label">Número:</span> <span class="value">{{ result[1] }}</span></li>
+                <li><span class="label">Endereço:</span> <span class="value">{{ result[2] }}</span></li>
+                <li><span class="label">Conta:</span> <span class="value">{{ result[3] }}</span></li>
+                <li><span class="label">CPF:</span> <span class="value">{{ result[4] }}</span></li>
+            </ul>
+        {% endif %}
+    </div>
+
+    <script>
+        document.getElementById('searchButton').addEventListener('click', function() {
+            var searchOptions = document.getElementById('searchOptions');
+            if (searchOptions.style.display === 'none') {
+                searchOptions.style.display = 'block';
+            } else {
+                searchOptions.style.display = 'none';
+            }
+        });
+
+        var searchOptions = document.getElementsByName('search_by');
+        searchOptions.forEach(function(option) {
+            option.addEventListener('change', function() {
+                document.getElementById('searchLabel').innerText = option.value.charAt(0).toUpperCase() + option.value.slice(1);
+            });
+        });
+    </script>
+</body>
+</html>
